@@ -44,7 +44,7 @@ class BackupRestore extends BackupRestoreBase
             $output->writeln('<error>Site does not exist thus cannot be restored!</error>');
             return Command::INVALID;
         }
-        $site_directory = $input->getOption('site-dir');
+        $site_directory = $this->getSiteDirectory($input, $output);
         $backup_dir = $backup_dir = $this->getBackupDir($input, $output);
 
         $site_name = $this->siteName($input, $output);

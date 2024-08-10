@@ -34,7 +34,7 @@ abstract class BackupRestoreBase extends CommandBase {
     }
 
     protected function siteExists(InputInterface $input, OutputInterface $output) {
-        $site_directory = $input->getOption('site-dir');
+        $site_directory = $this->getSiteDirectory($input, $output);
         $backup_dir = $this->getBackupDir($input, $output);
 
 
@@ -50,8 +50,13 @@ abstract class BackupRestoreBase extends CommandBase {
         return FALSE;
     }
 
-    protected function siteName(InputInterface $input, OutputInterface $output) {
+    protected function getSiteDirectory(InputInterface $input, OutputInterface $output) {
         $site_directory = $input->getOption('site-dir');
+        return  rtrim($site_directory,"/");
+    }
+
+    protected function siteName(InputInterface $input, OutputInterface $output) {
+        $site_directory = $this->getSiteDirectory($input, $output);
         if (file_exists($site_directory)) {
             return basename($site_directory);
         }

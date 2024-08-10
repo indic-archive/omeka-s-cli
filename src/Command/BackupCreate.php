@@ -32,7 +32,7 @@ class BackupCreate extends BackupRestoreBase
     protected function execute(InputInterface $input, OutputInterface $output): int {
         $styled_output = $this->getStyledOutput($input, $output);
 
-        $site_directory = $input->getOption('site-dir');
+        $site_directory = $this->getSiteDirectory($input, $output);
         $backup_dir = $this->getBackupDir($input, $output);
 
         $title = $input->getArgument('title');
