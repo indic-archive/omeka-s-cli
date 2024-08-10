@@ -9,7 +9,8 @@
         "symfony/console": "^6.4",
         "symfony/yaml": "^6.4",
         "pear/archive_tar": "^1.5",
-        "symfony/finder": "^6.4"
+        "symfony/finder": "^6.4",
+        "doctrine/dbal": "^4.0"
     },
     "autoload": {
         "psr-4": {
