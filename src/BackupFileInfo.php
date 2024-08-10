@@ -3,7 +3,7 @@
 namespace IDAF;
 
 use Symfony\Component\Finder\SplFileInfo;
-use IDAF\Command\BackupRestore;
+use IDAF\Command\BackupRestoreBase;
 use Archive_Tar;
 use Symfony\Component\Yaml\Yaml;
 
@@ -34,7 +34,7 @@ class BackupFileInfo {
 
       $backup_tar = new Archive_Tar($this->file->getPathname());
       /** @var string $backup_metadata_string */
-      $backup_metadata_string = $backup_tar->extractInString(BackupRestore::BACKUP_METADATA_FILENAME);
+      $backup_metadata_string = $backup_tar->extractInString(BackupRestoreBase::BACKUP_METADATA_FILENAME);
       if ($backup_metadata_string) {
         $backup_meta_data = Yaml::parse($backup_metadata_string);
 
