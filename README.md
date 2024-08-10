@@ -24,7 +24,7 @@ A CLI application to manage [**Omeka S**](https://omeka.org/s/) installations.
 You may create the file `.omeka-s-cli.yml` in your home directory and put this content in to it:
 
 ``` yaml
-backup-dir: /home/omeka/backups
+backup-dir: /home/omeka/backups/
 ```
 
 You may change the `backup-dir` to point at your desired path. Backups will be created and restored from that directory.

@@ -33,7 +33,7 @@ class BackupCreate extends BackupRestoreBase
         $styled_output = $this->getStyledOutput($input, $output);
 
         $site_directory = $input->getOption('site-dir');
-        $backup_dir = $input->getOption('backup-dir');
+        $backup_dir = $this->getBackupDir($input, $output);
 
         $title = $input->getArgument('title');
 

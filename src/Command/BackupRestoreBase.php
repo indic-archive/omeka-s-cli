@@ -25,9 +25,17 @@ abstract class BackupRestoreBase extends CommandBase {
         ;
     }
 
+    /**
+     * Get backup directory
+     */
+    protected function getBackupDir(InputInterface $input, OutputInterface $output) : string {
+        $backup_dir = $input->getOption('backup-dir');
+        return rtrim($backup_dir,"/") . '/';
+    }
+
     protected function siteExists(InputInterface $input, OutputInterface $output) {
         $site_directory = $input->getOption('site-dir');
-        $backup_dir = $input->getOption('backup-dir');
+        $backup_dir = $this->getBackupDir($input, $output);
 
 
         if ($input->getOption('verbose')) {

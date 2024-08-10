@@ -45,7 +45,7 @@ class BackupRestore extends BackupRestoreBase
             return Command::INVALID;
         }
         $site_directory = $input->getOption('site-dir');
-        $backup_dir = $input->getOption('backup-dir');
+        $backup_dir = $backup_dir = $this->getBackupDir($input, $output);
 
         $site_name = $this->siteName($input, $output);
 
