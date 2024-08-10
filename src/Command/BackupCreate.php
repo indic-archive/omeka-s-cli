@@ -25,7 +25,7 @@ class BackupCreate extends BackupRestoreBase
     protected function configure(): void {
         parent::configure();
         $this
-            ->addArgument('title', InputArgument::REQUIRED, 'Title for this backup. I will become part of the backup file name.')
+            ->addArgument('title', InputArgument::REQUIRED, 'Title for this backup. It will become part of the backup file name.')
         ;
     }
 
