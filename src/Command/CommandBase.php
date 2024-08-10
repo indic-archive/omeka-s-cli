@@ -11,6 +11,8 @@ use IDAF\IDAFOutputStyle;
 
 abstract class CommandBase extends Command {
 
+    const CONFIG_FILE_NAME = '.omeka-s-cli.yml';
+
     /**
      * Styled output helper.
      *
@@ -21,7 +23,7 @@ abstract class CommandBase extends Command {
     public function getConfig(): array {
         $config = [];
 
-        $config_file_path = $_SERVER['HOME'] . '/.omeka-s-cli.yml';
+        $config_file_path = $_SERVER['HOME'] . '/' . static::CONFIG_FILE_NAME;
         if (file_exists($config_file_path)) {
             $config = Yaml::parseFile($config_file_path);
         }
@@ -52,7 +54,7 @@ abstract class CommandBase extends Command {
      *  Input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *  Output
-     * @return \WWMApp\WWMOutputStyle
+     * @return \IDAF\IDAFOutputStyle
      */
     protected function getStyledOutput(InputInterface $input, OutputInterface $output) {
         if (!$this->styledOutput) {
