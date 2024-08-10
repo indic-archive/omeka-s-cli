@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class BackupRestoreBase extends CommandBase {
 
     const BACKUP_METADATA_FILENAME = '.omeka-s-cli-backup.info.yml';
+    const DATABASE_CONFIG_FILENAME = 'config/database.ini';
 
     protected function configure(): void {
         $config = $this->getConfig();
@@ -47,5 +48,20 @@ abstract class BackupRestoreBase extends CommandBase {
             return basename($site_directory);
         }
         return NULL;
+    }
+
+    protected function getDatabseConfigFilePath($site_directory) {
+        return $site_directory . '/' . static::DATABASE_CONFIG_FILENAME;
+    }
+
+    /**
+     * Read database configuration.
+     */
+    protected function getDatabseConfig($site_directory, $get_file_contents = FALSE) {
+        $database_config_file_contents = file_get_contents($this->getDatabseConfigFilePath($site_directory));
+        if (!$get_file_contents) {
+            return parse_ini_string($database_config_file_contents);
+        }
+        return $database_config_file_contents;
     }
 }
