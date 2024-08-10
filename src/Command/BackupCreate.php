@@ -49,7 +49,7 @@ class BackupCreate extends BackupRestoreBase
             $database_config = $this->getDatabseConfig($site_directory);
             $site_name = $this->siteName($input, $output);
 
-            $db_dump_file_name = $backup_dir . 'db-dump-' . $site_name . '-' . $timestamp_string . '.sql.gz';
+            $db_dump_file_name = $backup_dir . 'db-dump-' . $site_name . '-' . $timestamp_string . '.osb.sql.gz';
 
             $output->writeln('Creating database dump ...');
             exec("mysqldump --user={$database_config['user']} --password={$database_config['password']} --host={$database_config['host']} --no-tablespaces {$database_config['dbname']} | gzip > $db_dump_file_name");
