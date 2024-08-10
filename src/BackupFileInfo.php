@@ -6,6 +6,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use IDAF\Command\BackupRestoreBase;
 use Archive_Tar;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Helper\FormatterHelper;
 
 class BackupFileInfo {
   const DATETIME_FORMAT = 'Y-m-d-H-i-s';
@@ -28,9 +29,9 @@ class BackupFileInfo {
     $base_name = $file->getBasename();
 
     $matches = NULL;
-    if (preg_match('/' . preg_quote($site_name) . '\-\-(\d{4}\-\d{2}\-\d{2}\-\d{2}\-\d{2}\-\d{2})\-\-(.*).tar.gz/', $base_name, $matches)) {
-      $this->date_time = \DateTime::createFromFormat(self::DATETIME_FORMAT, $matches[2]);
-      $this->title = $matches[3];
+    if (preg_match('/.*\-\-(\d{4}\-\d{2}\-\d{2}\-\d{2}\-\d{2}\-\d{2})\-\-(.*).osb.tar.gz/', $base_name, $matches)) {
+      $this->date_time = \DateTime::createFromFormat(self::DATETIME_FORMAT, $matches[1]);
+      $this->title = $matches[2];
 
       $backup_tar = new Archive_Tar($this->file->getPathname());
       /** @var string $backup_metadata_string */
@@ -45,7 +46,7 @@ class BackupFileInfo {
 
     }
     else {
-      throw new NotOmekaSBackupFileException('Not a WWM server backup file.');
+      throw new NotOmekaSBackupFileException('Not an Omeka S backup.');
     }
   }
 
@@ -58,18 +59,8 @@ class BackupFileInfo {
   }
 
   public function __toString() {
-    $file_size = static::humanFileSize($this->file->getSize());
+    $file_size = FormatterHelper::formatMemory($this->file->getSize());
     return "Backup File: {$this->getBasename()}\n\tTitle: {$this->title}\n\tSize: {$file_size}\n\tDate and Time: {$this->date_time->format('Y-m-d H:i:s')}";
-  }
-
-  public static function humanFileSize($size, $unit="") {
-    if( (!$unit && $size >= 1<<30) || $unit == "GB")
-      return number_format($size/(1<<30),2)."GB";
-    if( (!$unit && $size >= 1<<20) || $unit == "MB")
-      return number_format($size/(1<<20),2)."MB";
-    if( (!$unit && $size >= 1<<10) || $unit == "KB")
-      return number_format($size/(1<<10),2)."KB";
-    return number_format($size)." bytes";
   }
 
   public static function getBackupFileName($site_name, $title, $timestamp_string, $db_only = FALSE) {
@@ -104,5 +95,16 @@ class BackupFileInfo {
     if (preg_match('/(.*?)\-\-(.*?)\-\-(\d{4}\-\d{2}\-\d{2}\-\d{2}\-\d{2}\-\d{2})\-\-(.*).tar.gz/', $file->getBasename(), $matches)) {
       return new BackupFileInfo($matches[1], $file);
     }
+  }
+
+  public function getDatabaseConfig() {
+    $backup_tar = new Archive_Tar($this->file->getPathname());
+    /** @var string */
+    $database_config_string = $backup_tar->extractInString(BackupRestoreBase::DATABASE_CONFIG_FILENAME);
+    return parse_ini_string($database_config_string);
+  }
+
+  public function getFileName() {
+    $this->file->getFileName();
   }
 }
