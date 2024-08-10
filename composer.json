@@ -1,5 +1,19 @@
 {
+    "name": "idaf/omeka-s-cli",
+    "version": "1.0.0",
+    "description": "CLI tools to manage Omeka S installations.",
+    "license": "AGPL-3.0",
+    "type": "project",
     "require": {
-        "symfony/console": "^6.4"
+        "php": "^8.1",
+        "symfony/console": "^6.4",
+        "symfony/yaml": "^6.4",
+        "pear/archive_tar": "^1.5",
+        "symfony/finder": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "IDAF\\": "src"
+        }
     }
 }
