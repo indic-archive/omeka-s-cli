@@ -57,3 +57,18 @@ This will list all available backups already in the backup directory and you can
 
 > [!WARNING]
 > Make sure to select correct backup when restoring a production site. The files and database of the site will be   replaced
+
+
+## Update
+
+To update. Pull code changes:
+
+``` shell
+git pull
+```
+
+and run composer update:
+
+``` shell
+composer update
+```
