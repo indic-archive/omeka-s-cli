@@ -10,6 +10,7 @@ use Archive_Tar;
 use Symfony\Component\Yaml\Yaml;
 use IDAF\BackupFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Helper\FormatterHelper;
 
 
 #[AsCommand(
@@ -45,7 +46,7 @@ class BackupCreate extends BackupRestoreBase
         }
         else {
             // $styled_output->taskDone('Found settings.php');
-            $database_config = parse_ini_file($site_directory . '/config/database.ini');
+            $database_config = $this->getDatabseConfig($site_directory);
             $site_name = $this->siteName($input, $output);
 
             $db_dump_file_name = $backup_dir . 'db-dump-' . $site_name . '-' . $timestamp_string . '.sql.gz';
@@ -88,7 +89,7 @@ class BackupCreate extends BackupRestoreBase
                 $output->write('Compressing the archive ...');
                 exec('gzip "' . $tar_file_path . '"');
                 $styled_output->taskDone();
-                $styled_output->success('Backup created "' . $tar_file_name . '.gz" (' . BackupFileInfo::humanFileSize(filesize($tar_file_path . '.gz')) . ')');
+                $styled_output->success('Backup created "' . $tar_file_name . '.gz" (' . FormatterHelper::formatMemory(filesize($tar_file_path . '.gz')) . ')');
                 return Command::SUCCESS;
             }
         }
