@@ -25,9 +25,14 @@ You may create the file `.omeka-s-cli.yml` in your home directory and put this c
 
 ``` yaml
 backup-dir: /home/omeka/backups/
+backup-restore-disallow:
+  - '/home/omeka/www'
 ```
 
-You may change the `backup-dir` to point at your desired path. Backups will be created and restored from that directory.
+* **backup-dir**
+    * Directory path where backups will be kept on creation and taken for restoring.
+* **backup-restore-disallow**
+    * List of directory of Omeka S installation to prevent restoring backups. This will protect production sites from accidental overwriting.
 
 ## Usage
 
