@@ -1,6 +1,6 @@
 # Omeka S CLI
 
-A CLI application to manage **Omeka S** installations.
+A CLI application to manage [**Omeka S**](https://omeka.org/s/) installations.
 
 ## Installation
 
