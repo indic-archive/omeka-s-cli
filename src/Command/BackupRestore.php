@@ -31,6 +31,13 @@ class BackupRestore extends BackupRestoreBase
 
     protected function execute(InputInterface $input, OutputInterface $output): int {
         $styled_output = $this->getStyledOutput($input, $output);
+        $site_directory = $this->getSiteDirectory($input, $output);
+
+        if ($this->isRestoringDisabledSite($input, $output)) {
+            $styled_output->error('Restoring over the site at "' . $site_directory . '" is not allowed.');
+            return static::FAILURE;
+        }
+
         /** @var \Symfony\Component\Console\Helper\FormatterHelper */
         $formatter = $this->getHelper('formatter');
 
@@ -44,7 +51,7 @@ class BackupRestore extends BackupRestoreBase
             $output->writeln('<error>Site does not exist thus cannot be restored!</error>');
             return Command::INVALID;
         }
-        $site_directory = $this->getSiteDirectory($input, $output);
+
         $backup_dir = $backup_dir = $this->getBackupDir($input, $output);
 
         $site_name = $this->siteName($input, $output);
@@ -181,5 +188,23 @@ class BackupRestore extends BackupRestoreBase
         }
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Check the site against list of sits configured to 
+     */
+    protected function isRestoringDisabledSite(InputInterface $input, OutputInterface $output) : bool {
+        $site_directory = $this->getSiteDirectory($input, $output);
+
+        $configs = $this->getConfig();
+        if (!empty($configs['backup-restore-disallow'])) {
+            foreach ($configs['backup-restore-disallow'] as $restoring_disabled_site_dir) {
+                $restoring_disabled_site_dir = rtrim($restoring_disabled_site_dir, '/');
+                if ($site_directory == $restoring_disabled_site_dir) {
+                    return TRUE;
+                }
+            }
+        }
+        return FALSE;
     }
 }
