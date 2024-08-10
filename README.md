@@ -15,7 +15,7 @@ A CLI application to manage **Omeka S** installations.
     ```
 3. Create a symlink to the application in your bin directory.
     ``` shell
-    ls -s /path/to/where/you/clone/above/repo/bin/app.php ~/bin/omeka-s-cli
+    ln -s /path/to/where/you/clone/above/repo/app/app.php ~/bin/omeka-s-cli
     chmod +x ~/bin/omeka-s-cli
     ```
 
