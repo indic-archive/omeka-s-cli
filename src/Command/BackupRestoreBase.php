@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-abstract class BackupRestore extends CommandBase {
+abstract class BackupRestoreBase extends CommandBase {
 
     const BACKUP_METADATA_FILENAME = '.omeka-s-cli-backup.info.yml';
 
