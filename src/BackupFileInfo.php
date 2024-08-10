@@ -79,10 +79,10 @@ class BackupFileInfo {
 
     $backup_file_name = $site_name . '--'  . $timestamp_string . '--' . $filename_safe_description;
     if ($db_only) {
-      $backup_file_name .= '.sql';
+      $backup_file_name .= '.osb.sql';
     }
     else {
-      $backup_file_name .= '.tar';
+      $backup_file_name .= '.osb.tar';
     }
     return $backup_file_name;
   }
