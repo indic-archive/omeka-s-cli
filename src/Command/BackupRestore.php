@@ -26,6 +26,7 @@ class BackupRestore extends BackupRestoreBase
         parent::configure();
         $this
             ->addOption('filter-name', NULL, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED , 'Filter by title of the backup. Provide a word or part of the title to match. It will be useful if there are long list of backups making it difficult to choose correct one.')
+            ->addOption('mariadb-import-fix', NULL, InputOption::VALUE_NONE , 'Use this option if you get error like "ERROR at line 1: Unknown command \'\-\'." on importing database. For more details visit: https://mariadb.org/mariadb-dump-file-compatibility-change/')
         ;
     }
 
@@ -167,8 +168,14 @@ class BackupRestore extends BackupRestoreBase
                 $sql_dump_finder->name('*.osb.sql.gz');
 
                 foreach ($sql_dump_finder->in($site_directory) as $file) {
+                    $mariadb_import_fix = $input->getOption('mariadb-import-fix');
+                    $mariadb_import_fix_extra_command = '';
+                    if ($mariadb_import_fix) {
+                        $mariadb_import_fix_extra_command = '| tail -n +2';
+                    }
+
                     $output->writeln('<info>Restoring database from dump ...</info>');
-                    exec("gunzip -c {$file->getPathname()} | mysql --user={$existing_database_config['user']} --password={$existing_database_config['password']} --host={$existing_database_config['host']} {$existing_database_config['dbname']}");
+                    exec("gunzip -c {$file->getPathname()} $mariadb_import_fix_extra_command | mysql --user={$existing_database_config['user']} --password={$existing_database_config['password']} --host={$existing_database_config['host']} {$existing_database_config['dbname']}");
                     exec("rm {$file->getPathname()} ");
                     break;
                 }

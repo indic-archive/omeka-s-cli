@@ -1,6 +1,6 @@
 {
     "name": "idaf/omeka-s-cli",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "CLI tools to manage Omeka S installations.",
     "license": "AGPL-3.0",
     "type": "project",
