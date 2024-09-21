@@ -114,7 +114,7 @@ class BackupRestore extends BackupRestoreBase
                 $database_config_from_backup = $selected_backup_file_info->getDatabaseConfig();
 
                 if ($existing_database_config['dbname'] != $database_config_from_backup['dbname']) {
-                    $db_not_matching_question = new ConfirmationQuestion('Database name from the backup appears to be different than existing site. Are you sure to restore?', false);
+                    $db_not_matching_question = new ConfirmationQuestion('Database name from the backup appears to be different than existing site. Are you sure to restore? [y/n]: ', false);
 
                     if (!$helper->ask($input, $output, $db_not_matching_question)) {
                         return Command::FAILURE;
