@@ -33,28 +33,6 @@ abstract class BackupRestoreBase extends CommandBase {
         return rtrim($backup_dir,"/") . '/';
     }
 
-    protected function siteExists(InputInterface $input, OutputInterface $output) {
-        $site_directory = $this->getSiteDirectory($input, $output);
-        $backup_dir = $this->getBackupDir($input, $output);
-
-
-        if ($input->getOption('verbose')) {
-            $output->writeln("<info>Site Dir: $site_directory</info>");
-            $output->writeln("<info>Backup dir: $backup_dir</info>");
-        }
-
-        if (file_exists($site_directory . '/config/database.ini')) {
-            // The site does exist.
-            return TRUE;
-        }
-        return FALSE;
-    }
-
-    protected function getSiteDirectory(InputInterface $input, OutputInterface $output) {
-        $site_directory = $input->getOption('site-dir');
-        return  rtrim($site_directory,"/");
-    }
-
     protected function siteName(InputInterface $input, OutputInterface $output) {
         $site_directory = $this->getSiteDirectory($input, $output);
         if (file_exists($site_directory)) {

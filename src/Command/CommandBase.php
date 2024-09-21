@@ -62,4 +62,23 @@ abstract class CommandBase extends Command {
         }
         return $this->styledOutput;
     }
+
+    protected function getSiteDirectory(InputInterface $input, OutputInterface $output) {
+        $site_directory = $input->getOption('site-dir');
+        return  rtrim($site_directory,"/");
+    }
+
+    protected function siteExists(InputInterface $input, OutputInterface $output) {
+        $site_directory = $this->getSiteDirectory($input, $output);
+
+        if ($input->getOption('verbose')) {
+            $output->writeln("<info>Site Dir: $site_directory</info>");
+        }
+
+        if (file_exists($site_directory . '/config/database.ini')) {
+            // The site does exist.
+            return TRUE;
+        }
+        return FALSE;
+    }
 }
