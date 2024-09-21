@@ -27,6 +27,7 @@ class BackupRestore extends BackupRestoreBase
         $this
             ->addOption('filter-name', NULL, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED , 'Filter by title of the backup. Provide a word or part of the title to match. It will be useful if there are long list of backups making it difficult to choose correct one.')
             ->addOption('mariadb-import-fix', NULL, InputOption::VALUE_NONE , 'Use this option if you get error like "ERROR at line 1: Unknown command \'\-\'." on importing database. For more details visit: https://mariadb.org/mariadb-dump-file-compatibility-change/')
+            ->addOption('same-owner', NULL, InputOption::VALUE_NONE , 'Use this when you need to use --same-owner option in tar command when extracting the backup files.')
         ;
     }
 
@@ -125,7 +126,15 @@ class BackupRestore extends BackupRestoreBase
                 exec("rm -rf $site_directory/*");
 
                 $output->writeln('<info>Extracting site files from the backup ...</info>');
-                exec("tar --same-owner -zxf \"{$selected_backup_file_info->file->getPathname()}\" --directory $site_directory");
+
+                if ($input->getOption('--same-owner')) {
+                    $same_owner = "--same-owner";
+                }
+                else {
+                    $same_owner = '';
+                }
+
+                exec("tar $same_owner -zxf \"{$selected_backup_file_info->file->getPathname()}\" --directory $site_directory");
                 // $tar_file_name
                 // $tar = new Archive_Tar($selected_backup_file_info->file->getPathname());
 
