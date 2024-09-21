@@ -127,7 +127,7 @@ class BackupRestore extends BackupRestoreBase
 
                 $output->writeln('<info>Extracting site files from the backup ...</info>');
 
-                if ($input->getOption('--same-owner')) {
+                if ($input->getOption('same-owner')) {
                     $same_owner = "--same-owner";
                 }
                 else {
