@@ -52,7 +52,7 @@ Let's assume your Omeka S instance is installed at `/home/omeka/www`
 omeka-s-cli backup:create --site-dir=/home/omeka/www "A backup before doing something unexpected"
 ```
 
-### Restore a Backup
+#### Restore from a Backup
 
 ``` shell
 omeka-s-cli backup:restore --site-dir=/home/omeka/www
@@ -62,6 +62,23 @@ This will list all available backups already in the backup directory and you can
 
 > [!WARNING]
 > Make sure to select correct backup when restoring a production site. The files and database of the site will be   replaced
+
+#### Update Omeka S
+
+This will prompt to update to the latest release available.
+
+``` shell
+omeka-s-cli update --site-dir=/home/omeka/www
+```
+
+If you want to update to a specific version, run below given command. It will give you options to choose.
+
+``` shell
+omeka-s-cli update --site-dir=/home/omeka/www --list
+```
+
+> [!WARNING]
+> Right now there is detection of existing Omeka S version installed. So, it is your responsibility to make sure you are updatign from a lower version to higher.
 
 
 ## Update
