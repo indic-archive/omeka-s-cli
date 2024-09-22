@@ -114,7 +114,7 @@ class Update extends CommandBase
                             foreach ($finder as $file) {
                                 $file_system->remove(Path::join($site_directory, $file->getRelativePathname()));
                                 // $output->writeln('  Deleting existing ' . $file->getRelativePathname() . ' ...');
-                                $styled_output->taskDone('  ' . $file->getRelativePathname() . ' ...');
+                                $styled_output->taskDone('  ' . $file->getRelativePathname());
                             }
 
                             $finder = new Finder();
@@ -124,6 +124,8 @@ class Update extends CommandBase
                             $finder->exclude('files');
                             $finder->notPath('config/local.config.php');
                             $finder->notPath('config/database.ini');
+                            $output->writeln('Copying files from new release ... ');
+                            $styled_output->taskDone('  Done');
                             $file_system->mirror($extracted_dir, $site_directory, $finder, ['override' => TRUE]);
                             $styled_output->taskDone('Completed all operations!');
                             $styled_output->success('Now go to /admin page of your Omeka S site to apply and pending database updates.');
