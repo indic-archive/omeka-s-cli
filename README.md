@@ -77,7 +77,7 @@ If you want to update to a specific version, run below given command. It will gi
 omeka-s-cli update --site-dir=/home/omeka/www --list
 ```
 
-> [!WARNING]
+> [!NOTE]
 > Right now there is no detection of existing Omeka S version installed. So, it is your responsibility to make sure you are updating from a lower version to higher.
 
 
