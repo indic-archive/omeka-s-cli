@@ -184,7 +184,7 @@ class BackupRestore extends BackupRestoreBase
                     }
 
                     $output->writeln('<info>Restoring database from dump ...</info>');
-                    exec("gunzip -c {$file->getPathname()} $mariadb_import_fix_extra_command | mysql --user={$existing_database_config['user']} --password={$existing_database_config['password']} --host={$existing_database_config['host']} {$existing_database_config['dbname']}");
+                    exec("gunzip -c {$file->getPathname()} $mariadb_import_fix_extra_command | MYSQL_PWD=\"{$existing_database_config['password']}\" mysql --user={$existing_database_config['user']} --host={$existing_database_config['host']} {$existing_database_config['dbname']}");
                     exec("rm {$file->getPathname()} ");
                     break;
                 }
