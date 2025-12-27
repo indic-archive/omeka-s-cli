@@ -52,7 +52,7 @@ class BackupCreate extends BackupRestoreBase
             $db_dump_file_name = $backup_dir . 'db-dump-' . $site_name . '-' . $timestamp_string . '.osb.sql.gz';
 
             $output->writeln('Creating database dump ...');
-            exec("mysqldump --user={$database_config['user']} --password={$database_config['password']} --host={$database_config['host']} --no-tablespaces {$database_config['dbname']} | gzip > $db_dump_file_name");
+            exec("MYSQL_PWD=\"{$database_config['password']}\" mysqldump --user={$database_config['user']} --host={$database_config['host']} --no-tablespaces {$database_config['dbname']} | gzip > $db_dump_file_name");
             if (file_exists($db_dump_file_name)) {
                 $styled_output->taskDone('Database dump has been created');
 
